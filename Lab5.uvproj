@@ -425,6 +425,21 @@
               <FileType>1</FileType>
               <FilePath>.\Source\Lab5_Main.c</FilePath>
             </File>
+            <File>
+              <FileName>SPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\SPI.c</FilePath>
+            </File>
+            <File>
+              <FileName>MusicLogic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\MusicLogic.c</FilePath>
+            </File>
+            <File>
+              <FileName>Music.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Music.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -494,6 +509,21 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Include\Debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>SPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\SPI.h</FilePath>
+            </File>
+            <File>
+              <FileName>Music.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\Music.h</FilePath>
+            </File>
+            <File>
+              <FileName>MusicLogic.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Include\MusicLogic.h</FilePath>
             </File>
           </Files>
         </Group>

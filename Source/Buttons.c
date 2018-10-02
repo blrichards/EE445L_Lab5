@@ -2,7 +2,7 @@
 // Authors: Ryan Mitchell and Ben Richards
 // Initial Creation Date: 9/18/18
 // Description: File for button functionality 
-// Lab Number: Lab03
+// Lab Number: Lab05
 // TA: Zee Lv
 // Date of last revision: 9/19/2018
 // Hardware Configuration: N/A
