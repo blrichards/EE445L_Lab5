@@ -11,10 +11,10 @@
 #include "tm4c123gh6pm.h"
 #include <stdint.h>
 
-#define FAR_LEFT_SWITCH 		0x8
-#define SECOND_TO_LEFT_SWITCH 	0x4
-#define SECOND_TO_RIGHT_SWITCH 	0x2
-#define FAR_RIGHT_SWITCH 		0x1
+#define PLAY_PAUSE_SWITCH 		0x8
+#define REWIND_SWITCH		 	0x4
+#define INSTRUMENTS_SWITCH 		0x2
+#define TEMPO_SWITCH	 		0x1
 #define PF2 (*((volatile uint32_t*)0x40025010))
 
 void Buttons_Init(void)
@@ -38,22 +38,21 @@ void GPIOPortB_Handler(void){
 	GPIO_PORTB_ICR_R = 0x0F;      // acknowledge flag
 
 	switch(flags){
-		case FAR_LEFT_SWITCH:
-			//AlarmClock_DisplayShouldUpdate(ButtonZeroPressed);
+		case PLAY_PAUSE_SWITCH:
+			//Process Play pause = disable timer NOT interrupts
 			break;
-		case SECOND_TO_LEFT_SWITCH:
-			//AlarmClock_DisplayShouldUpdate(ButtonOnePressed);
+		case REWIND_SWITCH:
+			//Process Rewind = stop music and set to beginning
 			break;
-		case SECOND_TO_RIGHT_SWITCH:
-			//AlarmClock_DisplayShouldUpdate(ButtonTwoPressed);
+		case INSTRUMENTS_SWITCH:
+			//Switch sine tab to different instrument to something else
 			break;
-		case FAR_RIGHT_SWITCH:	
-			//AlarmClock_DisplayShouldUpdate(ButtonThreePressed);
+		case TEMPO_SWITCH:	
+			//Could be used to switch song or speed
 			break;
 		default:	//multiple buttons pressed, dont do anything
 			break;
 	}
-		
+	
 	PF2 ^= 0x04;
-	//TODO: to process data input to the clock
 }

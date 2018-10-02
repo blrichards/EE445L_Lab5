@@ -10,27 +10,31 @@
 #include "Timer.h"
 #include "tm4c123gh6pm.h"
 #include "ST7735.h"
+#include "SPI.h"
 #include <stdint.h>
+
+uint32_t CurrentNoteFrequency;
+uint8_t NoteIndex = 0;
+uint32_t SongIndex = 0;
 
 #define PB7 (*((volatile uint32_t*)0x40005200))
 #define PF2 (*((volatile uint32_t*)0x40025010))
-	
-uint8_t CurrentSeconds = 0;
-uint8_t CurrentMinutes = 0;
-uint8_t CurrentHours = 0;
 
 void SysTick_Init(void)
 {
 	NVIC_ST_CTRL_R = 0;           		// disable SysTick during setup
-	NVIC_ST_RELOAD_R = 79999;       	// reload value for 1kHz
+	NVIC_ST_RELOAD_R = 0x00FFFFFF;       	// Set max reload value
 	NVIC_ST_CURRENT_R = 0;        		// any write to current clears it
 	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x00000000; // priority 1
 	NVIC_ST_CTRL_R = 0x00000006;  		// enable interrupts, not clock
 }
 
 void SysTick_Handler(void){
-    NVIC_ST_RELOAD_R = 79999;     // reload value for high phase
-	PB7 ^= 0x80;
+    NVIC_ST_RELOAD_R = CurrentNoteFrequency;;     // reload value for high phase
+	
+	NoteIndex++;
+	if((NoteIndex % 64) == 0) NoteIndex = 0;
+	SPI_Output(0x0); //TODO: add current sine table value based on instrument
 	PF2 ^= 0x04;
 }
 
@@ -54,25 +58,21 @@ void Timer0A_Init(uint32_t reloadValue)
     NVIC_EN0_R = 1 << 19; // enable interrupt 19 in NVIC
 }
 
+//used for quarter notes, eight notes, etc
 void Timer0A_Handler(void)
 {
+	NoteIndex++;
+	/* TODO: Sub SUDO CODE:
+	 *
+	 * if((NoteIndex % CurrentLastNote) == 0) NoteIndex = 0;
+	 * then set the the music to restart?
+	 * reload the next reload value with Note->duration
+	 *
+	 */
     TIMER0_ICR_R = TIMER_ICR_TATOCINT; // acknowledge timer0A timeout
-	CurrentSeconds++;
-	
-	if((CurrentSeconds % 60) == 0){
-		CurrentSeconds = 0;
-		CurrentMinutes++;
-		if((CurrentMinutes % 60) == 0){
-			CurrentMinutes = 0;
-			CurrentHours++;
-			if((CurrentHours % 24) == 0)
-				CurrentHours = 0;
-		}
-	}
-	
-	//AlarmClock_DisplayShouldUpdate(TimeChanged);
 }
 
+//Not being used right now
 void Timer1_Init(uint32_t reloadValue)
 {
     volatile uint32_t delay;

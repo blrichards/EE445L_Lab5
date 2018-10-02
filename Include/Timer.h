@@ -11,11 +11,7 @@
 
 #ifndef TIMER_H_
 #define TIMER_H_
-
-extern uint8_t CurrentSeconds;
-extern uint8_t CurrentMinutes;
-extern uint8_t CurrentHours;
-
+	
 void SysTick_Init(void);
 void Timer0A_Init(uint32_t reloadValue);
 void Timer1_Init(uint32_t reloadValue);

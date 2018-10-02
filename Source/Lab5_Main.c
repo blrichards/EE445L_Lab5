@@ -30,14 +30,14 @@ void WaitForInterrupt(void); // low power mode
 int main(void)
 {
 	PLL_Init(Bus80MHz); // 80 MHz
-    SYSCTL_RCGCGPIO_R |= 0x22; // activate port F, B
+    SYSCTL_RCGCGPIO_R |= 0x22; 		// activate port F, B
 	while((SYSCTL_PRGPIO_R & 0x22) == 0){};
 		
     // configure PF2 as GPIO
     Debug_Init();
-    Output_Init();
 	Buttons_Init();
-	Timer0A_Init(79999999);
+	SysTick_Init();					//for note frequency
+	Timer0A_Init(79999999); 		//set to 1 sec initially for notes
     EnableInterrupts();
 	
 	

@@ -10,5 +10,25 @@
 #ifndef MUSIC_H_
 #define MUSIC_H_
 
+#include <stdint.h>
+
+extern uint32_t CurrentNoteValue;
+
+
+typedef enum{
+	Default,
+	Flute,
+	Horn,
+	Basson,
+	Oboe,
+	Trumpet
+} Instrument;
+
+typedef struct{
+	uint32_t Frequency;
+	uint16_t Duration;
+	Instrument Instrument;
+} Note_t;
+
 
 #endif // MUSIC_H_
