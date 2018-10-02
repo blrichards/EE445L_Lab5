@@ -7,11 +7,9 @@
 // Date of last revision: 9/19/2018
 // Hardware Configuration: N/A
 
-#include "AlarmClock.h"
 #include "Buttons.h"
 #include "Debug.h"
 #include "PLL.h"
-#include "Speaker.h"
 #include "ST7735.h"
 #include "Timer.h"
 #include "tm4c123gh6pm.h"
@@ -39,10 +37,8 @@ int main(void)
     Output_Init();
 	Buttons_Init();
 	Timer0A_Init(79999999);
-	Speaker_Init();
     EnableInterrupts();
 	
-	AlarmClock_RedrawDisplay();
 	
     while (true) {
 		PF1 ^= 0x02; // toggles when running in main

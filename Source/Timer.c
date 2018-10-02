@@ -8,7 +8,6 @@
 // Hardware Configuration: N/A
 
 #include "Timer.h"
-#include "AlarmClock.h"
 #include "tm4c123gh6pm.h"
 #include "ST7735.h"
 #include <stdint.h>
@@ -71,7 +70,7 @@ void Timer0A_Handler(void)
 		}
 	}
 	
-	AlarmClock_DisplayShouldUpdate(TimeChanged);
+	//AlarmClock_DisplayShouldUpdate(TimeChanged);
 }
 
 void Timer1_Init(uint32_t reloadValue)

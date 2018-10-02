@@ -7,9 +7,7 @@
 // Date of last revision: 9/19/2018
 // Hardware Configuration: N/A
 
-#include "AlarmClock.h"
 #include "Buttons.h"
-#include "Speaker.h"
 #include "tm4c123gh6pm.h"
 #include <stdint.h>
 
@@ -41,16 +39,16 @@ void GPIOPortB_Handler(void){
 
 	switch(flags){
 		case FAR_LEFT_SWITCH:
-			AlarmClock_DisplayShouldUpdate(ButtonZeroPressed);
+			//AlarmClock_DisplayShouldUpdate(ButtonZeroPressed);
 			break;
 		case SECOND_TO_LEFT_SWITCH:
-			AlarmClock_DisplayShouldUpdate(ButtonOnePressed);
+			//AlarmClock_DisplayShouldUpdate(ButtonOnePressed);
 			break;
 		case SECOND_TO_RIGHT_SWITCH:
-			AlarmClock_DisplayShouldUpdate(ButtonTwoPressed);
+			//AlarmClock_DisplayShouldUpdate(ButtonTwoPressed);
 			break;
 		case FAR_RIGHT_SWITCH:	
-			AlarmClock_DisplayShouldUpdate(ButtonThreePressed);
+			//AlarmClock_DisplayShouldUpdate(ButtonThreePressed);
 			break;
 		default:	//multiple buttons pressed, dont do anything
 			break;
