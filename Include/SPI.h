@@ -7,8 +7,12 @@
 // Date of last revision: 10/1/18
 // Hardware Configuration: N/A
 
+#include <stdint.h>
+
 #ifndef SPI_H_
 #define SPI_H_
 
+void SPI_Init(void);
+void SPI_Output(uint16_t value);
 
 #endif // SPI_H_

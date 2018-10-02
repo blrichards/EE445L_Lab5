@@ -31,7 +31,8 @@ int main(void)
 {
 	PLL_Init(Bus80MHz); // 80 MHz
     SYSCTL_RCGCGPIO_R |= 0x22; // activate port F, B
-	
+	while((SYSCTL_PRGPIO_R & 0x22) == 0){};
+		
     // configure PF2 as GPIO
     Debug_Init();
     Output_Init();
