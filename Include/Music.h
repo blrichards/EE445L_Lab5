@@ -12,23 +12,32 @@
 
 #include <stdint.h>
 
-extern uint32_t CurrentNoteValue;
+#define NUM_INSTRUMENTS 6
+
+//For tempo manipulation
+#define NORMAL_SPEED 1
+#define DOUBLE_SPEED 2
+#define HALF_SPEED 	 3
 
 
 typedef enum{
-	Default,
-	Flute,
-	Horn,
-	Basson,
-	Oboe,
-	Trumpet
+	Default,		//basic sine tab
+	Flute,			//on the 445L site
+	Horn,			//on the 445L site
+	Basson,			//on the 445L site
+	Oboe,			//on the 445L site
+	Trumpet			//on the 445L site
 } Instrument;
 
 typedef struct{
 	uint32_t Frequency;
-	uint16_t Duration;
+	uint32_t Duration;
 	Instrument Instrument;
 } Note_t;
 
+extern uint32_t CurrentSongIndex;
+extern uint32_t CurrentWaveIndex;
+extern Instrument CurrentInstrumet;
+extern uint8_t CurrentTempo;
 
 #endif // MUSIC_H_

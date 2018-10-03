@@ -74,12 +74,17 @@
 #define B6	633
 
 //Define note speeds
-#define NOTE_SPEED 		(80000000 / 1.5) 	//set to 1.5Hz = 90 BPM
-#define SIXTEENTH_NOTE	(NOTE_SPEED / 4)
-#define EIGHTH_NOTE 	(NOTE_SPEED / 2)
-#define QUARTER_NOTE 	(NOTE_SPEED)
-#define HALF_NOTE 		(NOTE_SPEED * 2)
-#define WHOLE_NOTE 		(NOTE_SPEED *4)
+#define NOTE_SPEED 		(80000000 / 1) 	//set to 1Hz = 60 BPM
+#define SIXTEENTH_NOTE	(uint32_t)(NOTE_SPEED / 4)
+#define EIGHTH_NOTE 	(uint32_t)(NOTE_SPEED / 2)
+#define QUARTER_NOTE 	(uint32_t)(NOTE_SPEED)
+#define HALF_NOTE 		(uint32_t)(NOTE_SPEED * 2)
+#define WHOLE_NOTE 		(uint32_t)(NOTE_SPEED * 4)
+
+uint32_t CurrentSongIndex;
+uint32_t CurrentWaveIndex;
+Instrument CurrentInstrumet = Default;
+uint8_t CurrentTempo = NORMAL_SPEED;
 
 Note_t BombOmbBattlefield[] = {
 	{E4, SIXTEENTH_NOTE, Default},
@@ -363,4 +368,4 @@ Note_t BombOmbBattlefield[] = {
 	{REST, SIXTEENTH_NOTE, Default},
 	{E5, QUARTER_NOTE, Default}
 };
-	
+

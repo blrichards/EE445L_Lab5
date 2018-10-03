@@ -10,6 +10,8 @@
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
+#define NUM_BUTTONS 4
+
 void Buttons_Init(void);
 
 #endif // BUTTONS_H_

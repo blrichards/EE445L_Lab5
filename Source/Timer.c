@@ -7,6 +7,7 @@
 // Date of last revision: 9/19/2018
 // Hardware Configuration: N/A
 
+#include "Music.h"
 #include "Timer.h"
 #include "tm4c123gh6pm.h"
 #include "ST7735.h"
@@ -30,7 +31,7 @@ void SysTick_Init(void)
 }
 
 void SysTick_Handler(void){
-    NVIC_ST_RELOAD_R = CurrentNoteFrequency;;     // reload value for high phase
+    NVIC_ST_RELOAD_R = CurrentNoteFrequency;     // reload value for high phase
 	
 	NoteIndex++;
 	if((NoteIndex % 64) == 0) NoteIndex = 0;
@@ -69,6 +70,10 @@ void Timer0A_Handler(void)
 	 * reload the next reload value with Note->duration
 	 *
 	 */
+	if(CurrentTempo == HALF_SPEED) {}
+		//TIMER0_TAILR_R = CurrentNote->Duration * 2
+	else {}
+		//TIMER0_TAILR_R = CurrentNote->Duration / CurrentTempo
     TIMER0_ICR_R = TIMER_ICR_TATOCINT; // acknowledge timer0A timeout
 }
 

@@ -10,5 +10,13 @@
 #ifndef MUSIC_PLAYER_H_
 #define MUSIC_PLAYER_H_
 
+typedef enum{
+	ButtonZeroPressed,
+	ButtonOnePressed,
+	ButtonTwoPressed,
+	ButtonThreePressed
+} Buttons;
+
+void MusicPlayerShouldUpdate(Buttons button);
 
 #endif // MUSIC_PLAYER_H_
