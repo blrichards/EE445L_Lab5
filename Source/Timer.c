@@ -62,19 +62,17 @@ void Timer0A_Init(uint32_t reloadValue)
 //used for quarter notes, eight notes, etc
 void Timer0A_Handler(void)
 {
-	NoteIndex++;
-	/* TODO: Sub SUDO CODE:
-	 *
-	 * if((NoteIndex % CurrentLastNote) == 0) NoteIndex = 0;
-	 * then set the the music to restart?
-	 * reload the next reload value with Note->duration
-	 *
-	 */
-	if(CurrentTempo == HALF_SPEED) {}
-		//TIMER0_TAILR_R = CurrentNote->Duration * 2
-	else {}
-		//TIMER0_TAILR_R = CurrentNote->Duration / CurrentTempo
-    TIMER0_ICR_R = TIMER_ICR_TATOCINT; // acknowledge timer0A timeout
+	NoteIndex = (NoteIndex + 1) % Songs[CurrentSongIndex].length;
+	// If we reach the end of a song, go to the next.
+	if (NoteIndex == 0)
+		CurrentSongIndex = (CurrentSongIndex + 1) % NumberOfSongs;
+	uint32_t duration = Songs[CurrentSongIndex].notes[NoteIndex].Duration;
+	if (CurrentTempo == HalfSpeed)
+		duration *= 2;
+	else if (CurrentTempo == DoubleSpeed)
+		duration /= 2;
+	TIMER0_TAILR_R = duration;
+	TIMER0_ICR_R = TIMER_ICR_TATOCINT; // acknowledge timer0A timeout
 }
 
 //Not being used right now

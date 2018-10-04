@@ -11,12 +11,13 @@
 #define MUSIC_PLAYER_H_
 
 typedef enum{
-	ButtonZeroPressed,
-	ButtonOnePressed,
-	ButtonTwoPressed,
-	ButtonThreePressed
-} Buttons;
+	PlayPause,
+	Rewind,
+	ChangeInstrument,
+	ChangeTempo,
+	NumMusicPlayerButtons
+} MusicPlayerButton;
 
-void MusicPlayerShouldUpdate(Buttons button);
+void MusicPlayerShouldUpdate(MusicPlayerButton button);
 
 #endif // MUSIC_PLAYER_H_

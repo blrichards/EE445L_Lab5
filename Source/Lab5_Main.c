@@ -40,7 +40,6 @@ int main(void)
 	Timer0A_Init(79999999); 		//set to 1 sec initially for notes
     EnableInterrupts();
 	
-	
     while (true) {
 		PF1 ^= 0x02; // toggles when running in main
     }

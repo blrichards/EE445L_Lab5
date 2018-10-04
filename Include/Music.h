@@ -12,32 +12,39 @@
 
 #include <stdint.h>
 
-#define NUM_INSTRUMENTS 6
+typedef enum {
+	NormalSpeed,
+	DoubleSpeed,
+	HalfSpeed,
+	NumTempos,
+} Tempo;
 
-//For tempo manipulation
-#define NORMAL_SPEED 1
-#define DOUBLE_SPEED 2
-#define HALF_SPEED 	 3
-
-
-typedef enum{
-	Default,		//basic sine tab
-	Flute,			//on the 445L site
-	Horn,			//on the 445L site
-	Basson,			//on the 445L site
-	Oboe,			//on the 445L site
-	Trumpet			//on the 445L site
+typedef enum {
+	DefaultInstrument, // basic sine tab
+	Flute,			   // on the 445L site
+	Horn,			   // on the 445L site
+	Basson,			   // on the 445L site
+	Oboe,			   // on the 445L site
+	Trumpet,		   // on the 445L site
+	NumInstruments     // number of instruments
 } Instrument;
 
 typedef struct{
 	uint32_t Frequency;
 	uint32_t Duration;
 	Instrument Instrument;
-} Note_t;
+} Note;
 
+typedef struct {
+	const Note* notes;
+	const uint32_t length;
+} Song;
+
+extern Song Songs[];
+extern const uint8_t NumberOfSongs;
 extern uint32_t CurrentSongIndex;
 extern uint32_t CurrentWaveIndex;
-extern Instrument CurrentInstrumet;
-extern uint8_t CurrentTempo;
+extern Instrument CurrentInstrument;
+extern Tempo CurrentTempo;
 
 #endif // MUSIC_H_

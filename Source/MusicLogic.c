@@ -14,6 +14,8 @@
 #include "MusicLogic.h"
 #include "tm4c123gh6pm.h"
 
+#define CYCLE_ENUM(type, limit, current) ((type)(((uint8_t)(current) + 1) % (limit)))
+
 static bool musicPlaying = false;
 
 typedef void(*ButtonAction)(void);
@@ -23,7 +25,7 @@ static void RewindButtonHandler(void);
 static void InstrumentButtonHandler(void);
 static void TempoButtonHandler(void);
 
-static const ButtonAction ButtonHandler[NUM_BUTTONS] = {
+static const ButtonAction ButtonHandler[NumMusicPlayerButtons] = {
 	PlayButtonHandler,
 	RewindButtonHandler,
 	InstrumentButtonHandler,
@@ -31,49 +33,37 @@ static const ButtonAction ButtonHandler[NUM_BUTTONS] = {
 };
 
 void PlayButtonHandler(void){
-	if(musicPlaying){
+	if(musicPlaying) {
 		musicPlaying = false;
-		TIMER0_CTL_R &= ~TIMER_CTL_TAEN;	//Disable Note timer
-		NVIC_ST_CTRL_R &= ~0x00000001;		//Disable SineTab timer
-	} 
-	else {
+		TIMER0_CTL_R &= ~TIMER_CTL_TAEN; // Disable Note timer
+		NVIC_ST_CTRL_R &= ~0x00000001;	 // Disable SineTab timer
+	} else {
 		musicPlaying = true;
-		TIMER0_CTL_R |= TIMER_CTL_TAEN;	//Disable Note timer
-		NVIC_ST_CTRL_R |= 0x00000001;		//Disable SineTab timer
+		TIMER0_CTL_R |= TIMER_CTL_TAEN;	 // Disable Note timer
+		NVIC_ST_CTRL_R |= 0x00000001;	 // Disable SineTab timer
 	}
 }
+
 void RewindButtonHandler(void){
-	if(musicPlaying) musicPlaying = false;
+	if (musicPlaying) 
+		musicPlaying = false;
 	TIMER0_CTL_R &= ~TIMER_CTL_TAEN;	//Disable Note timer
 	NVIC_ST_CTRL_R &= ~0x00000001;		//Disable SineTab timer
 	CurrentSongIndex = 0;
 	CurrentWaveIndex = 0;
 }
 
-void InstrumentButtonHandler(void){
-	/*
-	 * TODO: for this handler we basically need a global of the instruments
-	 * and cycle through them using CurrentInstrumet global, but might not be needed
-	 * with the note struct, just an idea of a cool feature that would be easy to implament
-	 */
+void InstrumentButtonHandler(void)
+{
+	CurrentInstrument = CYCLE_ENUM(Instrument, NumInstruments, CurrentInstrument);
 }
 
 void TempoButtonHandler(void){
-	if(CurrentTempo == NORMAL_SPEED){
-		CurrentTempo = DOUBLE_SPEED;
-		return;
-	}
-	else if(CurrentTempo == DOUBLE_SPEED){
-		CurrentTempo = HALF_SPEED;
-		return;
-	}
-	else if(CurrentTempo == HALF_SPEED){
-		CurrentTempo = NORMAL_SPEED;
-		return;
-	}
+	CurrentTempo = CYCLE_ENUM(Tempo, NumTempos, CurrentTempo);
 }
 
-void MusicPlayerShouldUpdate(Buttons button){
-	if(button > NUM_BUTTONS - 1) return;
+void MusicPlayerShouldUpdate(MusicPlayerButton button){
+	if(button >= NumMusicPlayerButtons) 
+		return;
 	ButtonHandler[button]();
 }
