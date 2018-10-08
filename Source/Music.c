@@ -10,7 +10,6 @@
 #include <stdint.h>
 #include "Music.h"
 
-uint8_t currentInstrument = DefaultInstrument;
 uint8_t instrumentIndex = 0;
 
 const uint32_t defaultInstrument[64] = {

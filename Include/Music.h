@@ -12,7 +12,6 @@
 
 #include <stdint.h>
 
-extern uint8_t currentInstrument;
 extern uint8_t instrumentIndex;
 
 typedef enum {

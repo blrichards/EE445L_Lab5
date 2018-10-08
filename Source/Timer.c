@@ -33,7 +33,7 @@ void SysTick_Init(void)
 void SysTick_Handler(void){
     NVIC_ST_RELOAD_R = CurrentNoteFrequency;     // reload value for high phase
 	
-	SPI_Output(InstrumentTable[currentInstrument][instrumentIndex]); //TODO: add current sine table value based on instrument
+	SPI_Output(InstrumentTable[CurrentInstrument][instrumentIndex]); //TODO: add current sine table value based on instrument
 	instrumentIndex = (instrumentIndex == 63) ? 0 : instrumentIndex + 1;
 	PF2 ^= 0x04;
 }
