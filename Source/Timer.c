@@ -33,8 +33,6 @@ void SysTick_Init(void)
 void SysTick_Handler(void){
     NVIC_ST_RELOAD_R = CurrentNoteFrequency;     // reload value for high phase
 	
-	NoteIndex++;
-	if((NoteIndex % 64) == 0) NoteIndex = 0;
 	SPI_Output(0x0); //TODO: add current sine table value based on instrument
 	PF2 ^= 0x04;
 }
@@ -55,8 +53,8 @@ void Timer0A_Init(uint32_t reloadValue)
     TIMER0_CTL_R |= TIMER_CTL_TAEN; 		// enable timer0A 32-b, periodic, interrupts
     
     // Timer0A=priority 2
-    NVIC_PRI4_R = (NVIC_PRI4_R & 0x00FFFFFF) | 0x40000000; // top 3 bits
-    NVIC_EN0_R = 1 << 19; // enable interrupt 19 in NVIC
+    NVIC_PRI4_R = (NVIC_PRI4_R & 0x00FFFFFF) | 0x40000000; 	// top 3 bits
+    NVIC_EN0_R = 1 << 19; 									// enable interrupt 19 in NVIC
 }
 
 //used for quarter notes, eight notes, etc
@@ -66,7 +64,9 @@ void Timer0A_Handler(void)
 	// If we reach the end of a song, go to the next.
 	if (NoteIndex == 0)
 		CurrentSongIndex = (CurrentSongIndex + 1) % NumberOfSongs;
-	uint32_t duration = Songs[CurrentSongIndex].notes[NoteIndex].Duration;
+	const Note* note = &Songs[CurrentSongIndex].notes[NoteIndex];
+	CurrentNoteFrequency = note->Frequency;
+	uint32_t duration = note->Duration;
 	if (CurrentTempo == HalfSpeed)
 		duration *= 2;
 	else if (CurrentTempo == DoubleSpeed)
@@ -79,12 +79,12 @@ void Timer0A_Handler(void)
 void Timer1_Init(uint32_t reloadValue)
 {
     volatile uint32_t delay;
-    SYSCTL_RCGCTIMER_R |= 0x02; // 0) activate TIMER1
-    delay = SYSCTL_RCGCTIMER_R; // allow time to finish activating
-    TIMER1_CTL_R = 0x00000000; // 1) disable TIMER1A during setup
-    TIMER1_CFG_R = 0x00000000; // 2) configure for 32-bit mode
-    TIMER1_TAMR_R = 0x00000002; // 3) configure for periodic mode, down-count
-    TIMER1_TAILR_R = reloadValue; // 4) reload value
-    TIMER1_TAPR_R = 0; // 5) bus clock resolution
-    TIMER1_CTL_R = 0x00000001; // 10) enable TIMER1A
+    SYSCTL_RCGCTIMER_R |= 0x02; 	// 0) activate TIMER1
+    delay = SYSCTL_RCGCTIMER_R; 	// allow time to finish activating
+    TIMER1_CTL_R = 0x00000000; 		// 1) disable TIMER1A during setup
+    TIMER1_CFG_R = 0x00000000; 		// 2) configure for 32-bit mode
+    TIMER1_TAMR_R = 0x00000002; 	// 3) configure for periodic mode, down-count
+    TIMER1_TAILR_R = reloadValue; 	// 4) reload value
+    TIMER1_TAPR_R = 0; 				// 5) bus clock resolution
+    TIMER1_CTL_R = 0x00000001; 		// 10) enable TIMER1A
 }

@@ -29,7 +29,7 @@ static const ButtonAction ButtonHandler[NumMusicPlayerButtons] = {
 	PlayButtonHandler,
 	RewindButtonHandler,
 	InstrumentButtonHandler,
-	TempoButtonHandler,
+	TempoButtonHandler
 };
 
 void PlayButtonHandler(void){
@@ -58,7 +58,8 @@ void InstrumentButtonHandler(void)
 	CurrentInstrument = CYCLE_ENUM(Instrument, NumInstruments, CurrentInstrument);
 }
 
-void TempoButtonHandler(void){
+void TempoButtonHandler(void)
+{
 	CurrentTempo = CYCLE_ENUM(Tempo, NumTempos, CurrentTempo);
 }
 
