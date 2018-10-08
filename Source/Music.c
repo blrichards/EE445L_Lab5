@@ -10,6 +10,9 @@
 #include <stdint.h>
 #include "Music.h"
 
+uint8_t currentInstrument = DefaultInstrument;
+uint8_t instrumentIndex = 0;
+
 const uint32_t defaultInstrument[64] = {
 	1024,1124,1224,1321,1416,1507,1593,1674,
 	1748,1816,1875,1927,1970,2004,2028,2043,
