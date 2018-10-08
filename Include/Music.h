@@ -23,11 +23,13 @@ typedef enum {
 	DefaultInstrument, // basic sine tab
 	Flute,			   // on the 445L site
 	Horn,			   // on the 445L site
-	Basson,			   // on the 445L site
+	Bassoon,			   // on the 445L site
 	Oboe,			   // on the 445L site
 	Trumpet,		   // on the 445L site
 	NumInstruments     // number of instruments
 } Instrument;
+
+extern const uint32_t* InstrumentTable[NumInstruments];
 
 typedef struct{
 	uint32_t Frequency;
