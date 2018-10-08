@@ -39,8 +39,8 @@ void PlayButtonHandler(void){
 		NVIC_ST_CTRL_R &= ~0x00000001;	 // Disable SineTab timer
 	} else {
 		musicPlaying = true;
-		TIMER0_CTL_R |= TIMER_CTL_TAEN;	 // Disable Note timer
-		NVIC_ST_CTRL_R |= 0x00000001;	 // Disable SineTab timer
+		TIMER0_CTL_R |= TIMER_CTL_TAEN;	 // Enable Note timer
+		NVIC_ST_CTRL_R |= 0x00000001;	 // Enable SineTab timer
 	}
 }
 

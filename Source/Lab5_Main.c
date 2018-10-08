@@ -10,6 +10,7 @@
 #include "Buttons.h"
 #include "Debug.h"
 #include "PLL.h"
+#include "SPI.h"
 #include "ST7735.h"
 #include "Timer.h"
 #include "tm4c123gh6pm.h"
@@ -38,6 +39,7 @@ int main(void)
 	Buttons_Init();
 	SysTick_Init();					//for note frequency
 	Timer0A_Init(79999999); 		//set to 1 sec initially for notes
+	SPI_Init();
     EnableInterrupts();
 	
     while (true) {

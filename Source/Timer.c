@@ -18,7 +18,6 @@ uint32_t CurrentNoteFrequency;
 uint8_t NoteIndex = 0;
 uint32_t SongIndex = 0;
 
-#define PB7 (*((volatile uint32_t*)0x40005200))
 #define PF2 (*((volatile uint32_t*)0x40025010))
 
 void SysTick_Init(void)
@@ -31,11 +30,11 @@ void SysTick_Init(void)
 }
 
 void SysTick_Handler(void){
+	const Note* note = &Songs[CurrentSongIndex].notes[NoteIndex];
+	CurrentNoteFrequency = note->Frequency;
     NVIC_ST_RELOAD_R = CurrentNoteFrequency;     // reload value for high phase
-	
 	SPI_Output(InstrumentTable[CurrentInstrument][instrumentIndex]); //TODO: add current sine table value based on instrument
 	instrumentIndex = (instrumentIndex == 63) ? 0 : instrumentIndex + 1;
-	PF2 ^= 0x04;
 }
 
 void Timer0A_Init(uint32_t reloadValue)
@@ -74,6 +73,7 @@ void Timer0A_Handler(void)
 		duration /= 2;
 	TIMER0_TAILR_R = duration;
 	TIMER0_ICR_R = TIMER_ICR_TATOCINT; // acknowledge timer0A timeout
+	//PF2 ^= 0x04;
 }
 
 //Not being used right now
