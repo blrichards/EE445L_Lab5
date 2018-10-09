@@ -29,12 +29,11 @@ void SysTick_Init(void)
 	NVIC_ST_CTRL_R = 0x00000006;  		// enable interrupts, not clock
 }
 
-void SysTick_Handler(void){
-	const Note* note = &Songs[CurrentSongIndex].notes[NoteIndex];
-	CurrentNoteFrequency = note->Frequency;
+void SysTick_Handler(void)
+{
     NVIC_ST_RELOAD_R = CurrentNoteFrequency;     // reload value for high phase
-	SPI_Output(InstrumentTable[CurrentInstrument][instrumentIndex]); //TODO: add current sine table value based on instrument
-	instrumentIndex = (instrumentIndex == 63) ? 0 : instrumentIndex + 1;
+	SPI_Output(InstrumentTable[CurrentInstrument][CurrentWaveIndex]); //TODO: add current sine table value based on instrument
+	CurrentWaveIndex = (CurrentWaveIndex + 1) % 64;
 }
 
 void Timer0A_Init(uint32_t reloadValue)
@@ -50,11 +49,21 @@ void Timer0A_Init(uint32_t reloadValue)
     TIMER0_TAILR_R = reloadValue; 			// start value for 1 Hz interrupts
     TIMER0_IMR_R |= TIMER_IMR_TATOIM; 		// enable timeout (rollover) interrupt
     TIMER0_ICR_R = TIMER_ICR_TATOCINT; 		// clear timer0A timeout flag
-    TIMER0_CTL_R |= TIMER_CTL_TAEN; 		// enable timer0A 32-b, periodic, interrupts
+    //TIMER0_CTL_R |= TIMER_CTL_TAEN; 		// enable timer0A 32-b, periodic, interrupts
     
     // Timer0A=priority 2
     NVIC_PRI4_R = (NVIC_PRI4_R & 0x00FFFFFF) | 0x40000000; 	// top 3 bits
     NVIC_EN0_R = 1 << 19; 									// enable interrupt 19 in NVIC
+	
+	CurrentSongIndex = (CurrentSongIndex + 1) % NumberOfSongs;
+	const Note* note = &Songs[CurrentSongIndex].notes[NoteIndex];
+	CurrentNoteFrequency = note->Frequency;
+	uint32_t duration = note->Duration;
+	if (CurrentTempo == HalfSpeed)
+		duration *= 2;
+	else if (CurrentTempo == DoubleSpeed)
+		duration /= 2;
+	TIMER0_TAILR_R = duration;
 }
 
 //used for quarter notes, eight notes, etc
@@ -66,6 +75,10 @@ void Timer0A_Handler(void)
 		CurrentSongIndex = (CurrentSongIndex + 1) % NumberOfSongs;
 	const Note* note = &Songs[CurrentSongIndex].notes[NoteIndex];
 	CurrentNoteFrequency = note->Frequency;
+	if (CurrentNoteFrequency == REST)
+		NVIC_ST_CTRL_R &= ~0x00000001;	 // Disable SineTab timer
+	else
+		NVIC_ST_CTRL_R |= 0x00000001;	 // Enable SineTab timer
 	uint32_t duration = note->Duration;
 	if (CurrentTempo == HalfSpeed)
 		duration *= 2;

@@ -31,8 +31,8 @@ void WaitForInterrupt(void); // low power mode
 int main(void)
 {
 	PLL_Init(Bus80MHz); // 80 MHz
-    SYSCTL_RCGCGPIO_R |= 0x22; 		// activate port F, B
-	while((SYSCTL_PRGPIO_R & 0x22) == 0){};
+    SYSCTL_RCGCGPIO_R |= 0x23;//0x22; 		// activate port F, B
+	while((SYSCTL_PRGPIO_R & 0x23) == 0){};
 		
     // configure PF2 as GPIO
     Debug_Init();
@@ -41,6 +41,8 @@ int main(void)
 	Timer0A_Init(79999999); 		//set to 1 sec initially for notes
 	SPI_Init();
     EnableInterrupts();
+	
+	// NVIC_ST_CTRL_R |= 0x00000001;
 	
     while (true) {
 		PF1 ^= 0x02; // toggles when running in main

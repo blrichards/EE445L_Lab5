@@ -10,8 +10,6 @@
 #include <stdint.h>
 #include "Music.h"
 
-uint8_t instrumentIndex = 0;
-
 const uint32_t defaultInstrument[64] = {
 	1024,1124,1224,1321,1416,1507,1593,1674,
 	1748,1816,1875,1927,1970,2004,2028,2043,
@@ -64,7 +62,6 @@ const uint32_t trumpetInstrument[64] = {
 };
 
 //Freq for the various notes based on 80000000/(64*notefreq)
-#define REST 0//0x00FFFFFF
 #define C2 	19110
 #define CS2 18038
 #define D2 	17025
@@ -127,7 +124,7 @@ const uint32_t trumpetInstrument[64] = {
 #define B6	633
 
 //Define note speeds
-#define NOTE_SPEED 		(80000000 / 1) 	//set to 1Hz = 60 BPM
+#define NOTE_SPEED 		(80000000 / 1.5) 	//set to 1Hz = 60 BPM
 #define SIXTEENTH_NOTE	(uint32_t)(NOTE_SPEED / 4)
 #define EIGHTH_NOTE 	(uint32_t)(NOTE_SPEED / 2)
 #define QUARTER_NOTE 	(uint32_t)(NOTE_SPEED)

@@ -12,7 +12,7 @@
 
 #include <stdint.h>
 
-extern uint8_t instrumentIndex;
+#define REST 0xdeadbeef
 
 typedef enum {
 	NormalSpeed,
